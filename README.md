@@ -135,14 +135,5 @@ sudo tcpdump -i eth0 -w data/sample.pcap host 10.0.0.5
 ## Dashboard (Security‑Focused SPL)
 See `splunk/panels.spl` for queries such as **Brute Force Timeline**, **Top Offenders**, **Recent High‑Signal Alerts**, and **Scan Heat**.
 
----
 
-## Security & Ethics
-- Use only lab environments you own/operate.
-- Do not brute force or scan external systems.
-- Mask or anonymize any real data before sharing.
 
----
-
-## License
-MIT
