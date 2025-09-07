@@ -1,0 +1,29 @@
+meta:
+  version: 1
+  window: 15m
+  mitre_ref:
+    brute_force: T1110
+    port_scan: T1046
+
+rules:
+  - id: brute_force_ssh
+    when: event_type == "auth_failed" and extra.service == "ssh"
+    group_by: [src_ip, dst_ip]
+    count:
+      field: extra.attempts
+      threshold: 5
+      window: 10m
+    severity: high
+    mitre: brute_force
+    description: Repeated SSH auth failures from one source to one destination exceed threshold.
+
+  - id: port_scan_tcp
+    when: proto == "TCP"
+    group_by: [src_ip, dst_ip]
+    distinct_count:
+      field: dst_port
+      threshold: 15
+      window: 10m
+    severity: medium
+    mitre: port_scan
+    description: Many unique destination ports from one source to a host in a short time.

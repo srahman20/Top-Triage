@@ -1,0 +1,19 @@
+# Panels for Top-Triage (use index=toptriage or the index you mapped via file monitor)
+# Brute Force Timeline
+index=toptriage sourcetype=toptriage:alerts rule_id=brute_force_ssh
+| timechart span=15m count by dst_ip
+
+# Top Offenders (Sources by Risk)
+index=toptriage sourcetype=toptriage:alerts
+| stats sum(risk) as risk_total, values(rule_id) as rules by src_ip
+| sort - risk_total | head 10
+
+# Recent High-Signal Alerts
+index=toptriage sourcetype=toptriage:alerts priority IN (P1,P2)
+| table _time priority risk rule_id src_ip dst_ip dst_port user message
+| sort - _time
+
+# Scan Heat (Distinct Ports)
+index=toptriage sourcetype=toptriage:alerts rule_id=port_scan_tcp
+| stats max(distinct_ports) as ports by src_ip dst_ip
+| sort - ports | head 10

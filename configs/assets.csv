@@ -1,0 +1,4 @@
+host,criticality,owner,dept
+ad-dc-01,Crown,IT,Infra
+win11-01,High,Student,Lab
+ubuntu-srv-01,Medium,Lab,Dev

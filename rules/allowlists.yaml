@@ -1,0 +1,7 @@
+ips:
+  - 10.0.0.10
+  - 10.0.0.99
+users:
+  - svc_backup
+hosts:
+  - jumpbox01

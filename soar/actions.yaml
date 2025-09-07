@@ -1,0 +1,5 @@
+on_priority:
+  P1: [slack_notify, email_notify, suggest_block]
+  P2: [slack_notify]
+  P3: [slack_notify]
+  P4: []
