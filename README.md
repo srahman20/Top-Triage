@@ -12,7 +12,7 @@ A practical, mid‑level security engineering project that tackles **alert fatig
 - Present a focused triage view: **Top Alerts**, **Top Offenders**, **Timeline**, **Recent High‑Signal Events**.
 - Emulate SOAR handoff with a few safe actions.
 
-Out of scope: building a production SIEM/SOAR; the project is a **repeatable lab** with clear code + docs.
+
 
 ---
 
