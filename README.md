@@ -1,8 +1,8 @@
-# Top‑Triage — End‑to‑End Alert Triage Pipeline (Wireshark → Python → Splunk → SOAR)
+# Top‑Triage
 
-A practical, mid‑level security engineering project that tackles **alert fatigue** by collecting raw telemetry (PCAP + system logs), normalizing events with Python, applying correlation + enrichment, scoring and prioritizing alerts, and visualizing them in Splunk. A small set of **SOAR‑style actions** (Slack/webhook, blocklist suggestion, email) demonstrates automated handoff.
+A security engineering project that tackles **alert fatigue** by collecting raw telemetry (PCAP + system logs), normalizing events with Python, applying correlation + enrichment, scoring and prioritizing alerts, and visualizing them in Splunk. A small set of **SOAR‑style actions** (Slack/webhook, blocklist suggestion, email) demonstrates automated handoff.
 
-> **Note:** Screenshots in this repo are from Splunk Dashboard Studio; packet capture/log generation steps are documented so you can reproduce them in a lab.
+
 
 ---
 
@@ -19,17 +19,29 @@ A practical, mid‑level security engineering project that tackles **alert fatig
 ## Architecture
 ```mermaid
 flowchart LR
-  A[Telemetry Sources] -->|PCAP (Wireshark/tcpdump)| B(Collector)
-  A -->|Syslog / Windows Events| B
-  B --> C[Normalizer (Python)]
-  C --> D[Correlation Engine (YAML rules)]
-  D --> E[Enrichment (Reputation/Assets)]
-  E --> F[Risk Scoring & Prioritization]
-  F --> G[Outputs]
-  G -->|HTTP Event Collector| H[(Splunk Index)]
-  G -->|CSV/JSON Artifacts| I[Artifacts]
-  H --> J[Dashboard Studio Panels]
-  F --> K[SOAR Actions (webhook/email/blocklist)]
+A["Telemetry Sources"]
+P["PCAP Wireshark/tcpdump"]
+S["Syslog / Windows Events"]
+B["Collector"]
+C["Normalizer (Python)"]
+D["Correlation (YAML rules)"]
+E["Enrichment"]
+F["Risk Scoring"]
+H[("Splunk Index")]
+J["Dashboard Studio Panels"]
+K["Saved Search / SOAR-ish Trigger"]
+
+A --> P
+P --> B
+A --> S
+S --> B
+B --> C
+C --> D
+D --> E
+E --> F
+F --> H
+H --> J
+F --> K
 ```
 
 ---
@@ -54,9 +66,9 @@ top-triage/
 │  └─ allowlists.yaml
 ├─ outputs/
 │  ├─ .gitkeep
-│  ├─ out_events.jsonl        # generated
-│  ├─ out_alerts.jsonl        # generated
-│  └─ out_alerts.csv          # generated
+│  ├─ out_events.jsonl        
+│  ├─ out_alerts.jsonl        
+│  └─ out_alerts.csv          
 ├─ splunk/
 │  ├─ hec_config.md
 │  ├─ panels.spl
